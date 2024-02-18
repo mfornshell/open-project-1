@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
 /// <summary>
 /// This class is responsible for starting the game by loading the persistent managers scene 
@@ -8,19 +10,25 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public class InitializationLoader : MonoBehaviour
 {
+	//may need to figure out if these also need to be AssetReferences?
 	[SerializeField] private GameSceneSO _persistentManagersScene;
 	[SerializeField] private GameSceneSO _mainMenuScene;
 
 	[Header("Broadcasting on")]
-	[SerializeField] LoadEventChannelSO _loadMenu;
+	[SerializeField] AssetReference _loadMenu;
 
 	IEnumerator Start()
 	{
-		//Load the persistent managers scene
 		yield return _persistentManagersScene.sceneReference.LoadSceneAsync(LoadSceneMode.Additive, true);
-		LoadMainMenu();
-		SceneManager.UnloadSceneAsync(0); //Initialization is the only scene in BuildSettings, thus it has index 0
+
+		var handle = _loadMenu.LoadAssetAsync<LoadEventChannelSO>();
+		yield return _loadMenu.LoadAssetAsync<LoadEventChannelSO>().WaitForCompletion();
+		LoadMainMenu(handle);
 	}
 
-	void LoadMainMenu() => _loadMenu.RaiseEvent(_mainMenuScene, true);
+	void LoadMainMenu(AsyncOperationHandle<LoadEventChannelSO> handle)
+	{
+		handle.Result.RaiseEvent(_mainMenuScene, true);
+		SceneManager.UnloadSceneAsync(0); //Initialization is the only scene in BuildSettings, thus it has index 0
+	}
 }
