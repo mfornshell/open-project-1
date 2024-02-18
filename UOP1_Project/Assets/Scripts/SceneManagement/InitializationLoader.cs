@@ -22,7 +22,7 @@ public class InitializationLoader : MonoBehaviour
 		yield return _persistentManagersScene.sceneReference.LoadSceneAsync(LoadSceneMode.Additive, true);
 
 		var handle = _loadMenu.LoadAssetAsync<LoadEventChannelSO>();
-		yield return _loadMenu.LoadAssetAsync<LoadEventChannelSO>().WaitForCompletion();
+		yield return handle.WaitForCompletion();
 		LoadMainMenu(handle);
 	}
 
