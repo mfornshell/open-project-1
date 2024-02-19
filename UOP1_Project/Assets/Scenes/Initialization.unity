@@ -155,7 +155,11 @@ MonoBehaviour:
   _persistentManagersScene: {fileID: 11400000, guid: c2119785ce96367428081d6eee0d932b,
     type: 2}
   _mainMenuScene: {fileID: 11400000, guid: 431ff81b74b48fb4d9301fb76ca633dd, type: 2}
-  _loadMenu: {fileID: 11400000, guid: 33cec85652903d245b99985f9cec9841, type: 2}
+  _loadMenu:
+    m_AssetGUID: 33cec85652903d245b99985f9cec9841
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
 --- !u!4 &1266309721
 Transform:
   m_ObjectHideFlags: 0

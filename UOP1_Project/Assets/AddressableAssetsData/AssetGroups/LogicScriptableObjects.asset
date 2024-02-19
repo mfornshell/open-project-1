@@ -30,7 +30,7 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
   - m_GUID: f78547c01850b0545bb7b094db4bef55
-    m_Address: Assets/ScriptableObjects/StateMachine
+    m_Address: ScriptableObjects/StateMachine
     m_ReadOnly: 0
     m_SerializedLabels: []
   - m_GUID: 40023d77bd4bf4209924c5ed16d3e189
@@ -46,7 +46,7 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
   - m_GUID: 86336cc370977d84daae031d45260986
-    m_Address: Assets/ScriptableObjects/SaveSystem
+    m_Address: ScriptableObjects/SaveSystem
     m_ReadOnly: 0
     m_SerializedLabels: []
   - m_GUID: 1725275e153e64ce8b2f15db2076445c
