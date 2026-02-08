@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -12,7 +13,7 @@ public class UIInventory : MonoBehaviour
 	[SerializeField] private GameObject _contentParent = default;
 	[SerializeField] private GameObject _errorPotMessage = default;
 	[SerializeField] private UIInventoryInspector _inspectorPanel = default;
-	[SerializeField] private List<InventoryTabSO> _tabTypesList = new List<InventoryTabSO>();
+	[SerializeField] private List<InventoryTabSO> _inventoryTabs = new List<InventoryTabSO>();
 	[SerializeField] private List<UIInventoryItem> _availableItemSlots = default;
 
 	[Header("Listening to")]
@@ -33,13 +34,15 @@ public class UIInventory : MonoBehaviour
 	private void OnEnable()
 	{
 		_actionButton.Clicked += OnActionButtonClicked;
-		_tabsPanel.TabChanged += OnChangeTab;
+		_tabsPanel.TabChanged += OnChangeTab; //Fill inventory
 		_onInteractionEndedEvent.OnEventRaised += InteractionEnded;
 
 		for (int i = 0; i < _availableItemSlots.Count; i++)
 		{
 			_availableItemSlots[i].ItemSelected += InspectItem;
 		}
+
+		//SetTabs(_tabTypesList, _tabTypesList.First());
 
 		_inputReader.TabSwitched += OnSwitchTab;
 	}
@@ -63,7 +66,7 @@ public class UIInventory : MonoBehaviour
 		if (orientation != 0)
 		{
 			bool isLeft = orientation < 0;
-			int initialIndex = _tabTypesList.FindIndex(o => o == _selectedTab);
+			int initialIndex = _inventoryTabs.FindIndex(o => o == _selectedTab);
 			if (initialIndex != -1)
 			{
 				if (isLeft)
@@ -75,10 +78,10 @@ public class UIInventory : MonoBehaviour
 					initialIndex++;
 				}
 
-				initialIndex = Mathf.Clamp(initialIndex, 0, _tabTypesList.Count - 1);
+				initialIndex = Mathf.Clamp(initialIndex, 0, _inventoryTabs.Count - 1);
 			}
 
-			OnChangeTab(_tabTypesList[initialIndex]);
+			OnChangeTab(_inventoryTabs[initialIndex]);
 		}
 	}
 
@@ -86,49 +89,18 @@ public class UIInventory : MonoBehaviour
 	{
 		_isNearPot = isNearPot;
 
-		if ((_tabTypesList.Exists(o => o.TabType == _selectedTabType)))
-		{
-			_selectedTab = _tabTypesList.Find(o => o.TabType == _selectedTabType);
-		}
-		else
-		{
-			if (_tabTypesList != null)
-			{
-				if (_tabTypesList.Count > 0)
-				{
-					_selectedTab = _tabTypesList[0];
-				}
-			}
-		}
+		_selectedTab = _inventoryTabs.Find(o => o.TabType == _selectedTabType) is InventoryTabSO tab
+			? tab : _inventoryTabs[0];
 
-		if (_selectedTab != null)
-		{
-			SetTabs(_tabTypesList, _selectedTab);
-			List<ItemStack> listItemsToShow = new List<ItemStack>();
-			listItemsToShow = _currentInventory.Items.FindAll(o => o.Item.ItemType.TabType == _selectedTab);
+		List<ItemStack> listItemsToShow = new List<ItemStack>();
+		listItemsToShow = _currentInventory.Items.FindAll(o => o.Item.ItemType.TabType == _selectedTab);
 
-			FillInvetoryItems(listItemsToShow);
-		}
-		else
-		{
-			Debug.LogError("There's no selected tab");
-		}
+		FillInventoryItems(listItemsToShow);
 	}
 
-	void InteractionEnded()
+	void FillInventoryItems(List<ItemStack> listItemsToShow)
 	{
-		_isNearPot = false;
-	}
-
-	void SetTabs(List<InventoryTabSO> typesList, InventoryTabSO selectedType)
-	{
-		_tabsPanel.SetTabs(typesList, selectedType);
-	}
-
-	void FillInvetoryItems(List<ItemStack> listItemsToShow)
-	{
-		if (_availableItemSlots == null)
-			_availableItemSlots = new List<UIInventoryItem>();
+		_availableItemSlots ??= new List<UIInventoryItem>();
 
 		int maxCount = Mathf.Max(listItemsToShow.Count, _availableItemSlots.Count);
 
@@ -159,6 +131,18 @@ public class UIInventory : MonoBehaviour
 			_availableItemSlots[0].SelectFirstElement();
 		}
 	}
+
+
+	void InteractionEnded()
+	{
+		_isNearPot = false;
+	}
+
+	void SetTabs(List<InventoryTabSO> typesList, InventoryTabSO selectedType)
+	{
+		_tabsPanel.SetTabs(typesList, selectedType);
+	}
+
 
 	void UpdateItemInInventory(ItemStack itemToUpdate, bool removeItem)
 	{

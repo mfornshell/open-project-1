@@ -224,6 +224,12 @@ public class UIManager : MonoBehaviour
 
 		_inputReader.MenuCloseEvent += CloseInventoryScreen;
 		_inputReader.CloseInventoryEvent += CloseInventoryScreen;
+
+
+		_inventoryPanel.gameObject.SetActive(true);
+		_switchTabDisplay.SetActive(true);
+		_inputReader.EnableMenuInput();
+
 		if (isForCooking)
 		{
 			_inventoryPanel.FillInventory(InventoryTabType.Recipe, true);
@@ -233,10 +239,6 @@ public class UIManager : MonoBehaviour
 		{
 			_inventoryPanel.FillInventory();
 		}
-
-		_inventoryPanel.gameObject.SetActive(true);
-		_switchTabDisplay.SetActive(true);
-		_inputReader.EnableMenuInput();
 
 		_gameStateManager.UpdateGameState(GameState.Inventory);
 	}

@@ -11,12 +11,19 @@ public class UIInventoryTab : MonoBehaviour
 	[SerializeField] private Color _selectedIconColor = default;
 	[SerializeField] private Color _deselectedIconColor = default;
 
-	[ReadOnly] public InventoryTabSO _currentTabType = default;
+	public InventoryTabSO TabData = default;
 
-	public void SetTab(InventoryTabSO tabType, bool isSelected)
+	private void Start()
 	{
-		_currentTabType = tabType;
-		_tabImage.sprite = tabType.TabIcon;
+		_tabImage.sprite = TabData.TabIcon;
+		UpdateState(false);
+	}
+
+
+	public void SetTab(InventoryTabSO tabData, bool isSelected)
+	{
+		TabData = tabData;
+		_tabImage.sprite = tabData.TabIcon;
 
 		UpdateState(isSelected);
 	}
@@ -25,18 +32,11 @@ public class UIInventoryTab : MonoBehaviour
 	{
 		_actionButton.interactable = !isSelected;
 
-		if (isSelected)
-		{
-			_tabImage.color = _selectedIconColor;
-		}
-		else
-		{
-			_tabImage.color = _deselectedIconColor;
-		}
+		_tabImage.color = isSelected ? _selectedIconColor : _deselectedIconColor;
 	}
 
 	public void ClickButton()
 	{
-		TabClicked.Invoke(_currentTabType);
+		TabClicked?.Invoke(TabData);
 	}
 }
