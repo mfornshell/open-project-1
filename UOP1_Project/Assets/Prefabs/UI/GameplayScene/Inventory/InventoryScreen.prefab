@@ -506,6 +506,8 @@ MonoBehaviour:
   - {fileID: 7412250779904212678}
   - {fileID: 7584548206858770602}
   _tabTypes: 
+  _tabClickedChannel: {fileID: 11400000, guid: fc0c5c42675afd04aa1c261c980c2569, type: 2}
+  _tabChangedChannel: {fileID: 11400000, guid: 7f3faf0c652578e4e8447f26970ee711, type: 2}
 --- !u!1 &3074161916560349395
 GameObject:
   m_ObjectHideFlags: 0
@@ -1149,6 +1151,7 @@ MonoBehaviour:
   _actionButton: {fileID: 8305677519979660487}
   _onInteractionEndedEvent: {fileID: 11400000, guid: c499d87f35465124f8fb2751b150430d,
     type: 2}
+  _tabChangedEvent: {fileID: 11400000, guid: 7f3faf0c652578e4e8447f26970ee711, type: 2}
   _useItemEvent: {fileID: 11400000, guid: cbe9057614db5422a97c4c250c742f06, type: 2}
   _restoreHealth: {fileID: 11400000, guid: de4a39f85969d44cba990125224ff7ef, type: 2}
   _equipItemEvent: {fileID: 11400000, guid: 0cef922101fd44b25a2d96f2972d5f50, type: 2}
@@ -1160,18 +1163,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7803197561695206171}
     m_Modifications:
-    - target: {fileID: 976798320740263069, guid: 8b138dd8c9fac4f9bbe1bac525c63a3c,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: ab76bea9284fc4564afda0c178cf1bd0,
-        type: 3}
-    - target: {fileID: 4878304712812314445, guid: 8b138dd8c9fac4f9bbe1bac525c63a3c,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: a36901baf2120452fb9a4fd0db9f851d,
-        type: 3}
     - target: {fileID: 5149096329462859123, guid: 8b138dd8c9fac4f9bbe1bac525c63a3c,
         type: 3}
       propertyPath: m_Pivot.x
@@ -1289,7 +1280,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7574264689645128330, guid: 8b138dd8c9fac4f9bbe1bac525c63a3c,
         type: 3}
-      propertyPath: TabData
+      propertyPath: _tabData
       value: 
       objectReference: {fileID: 11400000, guid: ffb767e0213a74f999ef44c216168232,
         type: 2}
@@ -1657,6 +1648,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: LineInventoryItem
       objectReference: {fileID: 0}
+    - target: {fileID: 5663074510775698892, guid: d3899a1f923ed45d9a4474970d199c2d,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5875391952262063890, guid: d3899a1f923ed45d9a4474970d199c2d,
         type: 3}
       propertyPath: m_fontSize
@@ -1953,6 +1949,12 @@ PrefabInstance:
     - target: {fileID: 7574264689645128330, guid: 8b138dd8c9fac4f9bbe1bac525c63a3c,
         type: 3}
       propertyPath: TabData
+      value: 
+      objectReference: {fileID: 11400000, guid: b7f665e7113d54635b9cd79218983b7e,
+        type: 2}
+    - target: {fileID: 7574264689645128330, guid: 8b138dd8c9fac4f9bbe1bac525c63a3c,
+        type: 3}
+      propertyPath: _tabData
       value: 
       objectReference: {fileID: 11400000, guid: b7f665e7113d54635b9cd79218983b7e,
         type: 2}
@@ -2832,6 +2834,12 @@ PrefabInstance:
     - target: {fileID: 7574264689645128330, guid: 8b138dd8c9fac4f9bbe1bac525c63a3c,
         type: 3}
       propertyPath: TabData
+      value: 
+      objectReference: {fileID: 11400000, guid: 89de7bb70f5b243fa80be0d8338dc39c,
+        type: 2}
+    - target: {fileID: 7574264689645128330, guid: 8b138dd8c9fac4f9bbe1bac525c63a3c,
+        type: 3}
+      propertyPath: _tabData
       value: 
       objectReference: {fileID: 11400000, guid: 89de7bb70f5b243fa80be0d8338dc39c,
         type: 2}

@@ -20,6 +20,7 @@ public class UIInventory : MonoBehaviour
 	[SerializeField] private UIInventoryTabs _tabsPanel = default;
 	[SerializeField] private UIActionButton _actionButton = default;
 	[SerializeField] private VoidEventChannelSO _onInteractionEndedEvent = default;
+	[SerializeField] InventoryTabSOEventChannel _tabChangedEvent;
 
 	[Header("Broadcasting on")]
 	[SerializeField] private ItemEventChannelSO _useItemEvent = default;
@@ -34,15 +35,15 @@ public class UIInventory : MonoBehaviour
 	private void OnEnable()
 	{
 		_actionButton.Clicked += OnActionButtonClicked;
-		_tabsPanel.TabChanged += OnChangeTab; //Fill inventory
 		_onInteractionEndedEvent.OnEventRaised += InteractionEnded;
+		_tabChangedEvent.OnRaiseEvent += OnChangeTab;
 
 		for (int i = 0; i < _availableItemSlots.Count; i++)
 		{
 			_availableItemSlots[i].ItemSelected += InspectItem;
 		}
 
-		//SetTabs(_tabTypesList, _tabTypesList.First());
+		_selectedTab = _inventoryTabs[0];
 
 		_inputReader.TabSwitched += OnSwitchTab;
 	}
@@ -50,8 +51,8 @@ public class UIInventory : MonoBehaviour
 	private void OnDisable()
 	{
 		_actionButton.Clicked -= OnActionButtonClicked;
-		_tabsPanel.TabChanged -= OnChangeTab;
 		_onInteractionEndedEvent.OnEventRaised -= InteractionEnded;
+		_tabChangedEvent.OnRaiseEvent -= OnChangeTab;
 
 		for (int i = 0; i < _availableItemSlots.Count; i++)
 		{
@@ -89,22 +90,24 @@ public class UIInventory : MonoBehaviour
 	{
 		_isNearPot = isNearPot;
 
-		_selectedTab = _inventoryTabs.Find(o => o.TabType == _selectedTabType) is InventoryTabSO tab
-			? tab : _inventoryTabs[0];
-
 		List<ItemStack> listItemsToShow = new List<ItemStack>();
 		listItemsToShow = _currentInventory.Items.FindAll(o => o.Item.ItemType.TabType == _selectedTab);
 
 		FillInventoryItems(listItemsToShow);
 	}
 
+
+	// TODO is meant to reset the item slots and fill them with the current selected tab item stacks
+	// cleanup, listItemsToShow is the current itemstacks of the tab type selected
+	// availableItemSlots should coincide with the actual slots in the inventory screen, should be set in the inspector
+	// list items to show should have the same hard limit as available slots? as to not overflow
 	void FillInventoryItems(List<ItemStack> listItemsToShow)
 	{
-		_availableItemSlots ??= new List<UIInventoryItem>();
+		_availableItemSlots ??= new List<UIInventoryItem>(); //not needed
 
-		int maxCount = Mathf.Max(listItemsToShow.Count, _availableItemSlots.Count);
+		int maxCount = Mathf.Max(listItemsToShow.Count, _availableItemSlots.Count); //not needed
 
-		for (int i = 0; i < maxCount; i++)
+		for (int i = 0; i < maxCount; i++) //convert to just iterating through the itemsToShow
 		{
 			if (i < listItemsToShow.Count)
 			{
@@ -137,12 +140,6 @@ public class UIInventory : MonoBehaviour
 	{
 		_isNearPot = false;
 	}
-
-	void SetTabs(List<InventoryTabSO> typesList, InventoryTabSO selectedType)
-	{
-		_tabsPanel.SetTabs(typesList, selectedType);
-	}
-
 
 	void UpdateItemInInventory(ItemStack itemToUpdate, bool removeItem)
 	{
@@ -246,7 +243,7 @@ public class UIInventory : MonoBehaviour
 
 	void UpdateInventory()
 	{
-		FillInventory(_selectedTab.TabType, _isNearPot);
+		//FillInventory(_selectedTab.TabType, _isNearPot);
 	}
 
 	void OnActionButtonClicked()
@@ -305,7 +302,8 @@ public class UIInventory : MonoBehaviour
 
 	void OnChangeTab(InventoryTabSO tabType)
 	{
-		FillInventory(tabType.TabType, _isNearPot);
+		_selectedTab = tabType;
+		FillInventory(_selectedTab.TabType, _isNearPot);
 	}
 
 	public void CloseInventory()
