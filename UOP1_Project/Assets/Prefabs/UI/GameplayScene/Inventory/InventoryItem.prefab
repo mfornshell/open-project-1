@@ -964,17 +964,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f07228a5666044b5a0f0633262f71f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _itemPreviewImage: {fileID: 377764689}
   _itemCount: {fileID: 2019030446}
+  _itemPreviewImage: {fileID: 377764689}
   _bgImage: {fileID: 1045375707}
   _imgHover: {fileID: 5361300499865444271}
   _imgSelected: {fileID: 2650992966786581764}
-  _currentItem:
+  _bgInactiveImage: {fileID: 5604442254051195761}
+  _itemButton: {fileID: 1985079888}
+  _bgLocalizedImage: {fileID: 4851260930613569847}
+  currentItem:
     _item: {fileID: 0}
     Amount: 0
-  _itemButton: {fileID: 1985079888}
-  _bgInactiveImage: {fileID: 5604442254051195761}
-  _bgLocalizedImage: {fileID: 4851260930613569847}
 --- !u!1 &7064202503617686431
 GameObject:
   m_ObjectHideFlags: 0

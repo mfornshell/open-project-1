@@ -79,6 +79,8 @@ public class UIInventoryItem : MonoBehaviour
 	public void OnHoverChanged(bool isHovering) =>
 		_imgHover.gameObject.SetActive(isHovering);
 
+
+	
 	public void SelectItem()
 	{
 		_isSelected = true;

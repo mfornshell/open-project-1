@@ -109,15 +109,14 @@ public class UIInventory : MonoBehaviour
 		//	_availableItemSlots[i].ClearItem();
 		//}
 
-		HideItemInformation();
+		_actionButton.gameObject.SetActive(false);
+		_inspectorPanel.gameObject.SetActive(false);
 
-		if (_selectedItemId >= 0)
-		{
-			UnselectItem(_selectedItemId);
-			_selectedItemId = -1;
-		}
+		_selectedItemId = -1;
 
-		_availableItemSlots[0].SelectFirstElement();
+		_inventorySlots.SelectFirstElement();
+
+		//_availableItemSlots[0].SelectFirstElement();
 	}
 
 	void DrawInventoryItems(List<ItemStack> items)
@@ -145,6 +144,8 @@ public class UIInventory : MonoBehaviour
 			UnselectItem(_selectedItemId);
 			_selectedItemId = -1;
 		}
+
+		
 
 		_availableItemSlots[0].SelectFirstElement();
 	}
@@ -202,8 +203,10 @@ public class UIInventory : MonoBehaviour
 		}
 	}
 
+	//should be called after an item is selected, so there shouldn't be any inspect confusion
 	public void InspectItem(ItemSO itemToInspect)
 	{
+
 		if (_availableItemSlots.Exists(o => o.currentItem.Item == itemToInspect))
 		{
 			int itemIndex = _availableItemSlots.FindIndex(o => o.currentItem.Item == itemToInspect);
