@@ -30,7 +30,7 @@ public class UIInventory : MonoBehaviour
 
 	private InventoryTabSO _selectedTab = default;
 	private bool _isNearPot = false;
-	private int selectedItemId = -1;
+	private int _selectedItemId = -1;
 
 	private void OnEnable()
 	{
@@ -44,6 +44,7 @@ public class UIInventory : MonoBehaviour
 		}
 
 		_selectedTab = _inventoryTabs[0];
+		_selectedItemId = -1;
 
 		_inputReader.TabSwitched += OnSwitchTab;
 	}
@@ -86,14 +87,14 @@ public class UIInventory : MonoBehaviour
 		}
 	}
 
-	public void FillInventory(InventoryTabType _selectedTabType = InventoryTabType.CookingItem, bool isNearPot = false)
+	public void DrawInventory(InventoryTabType _selectedTabType = InventoryTabType.CookingItem, bool isNearPot = false)
 	{
 		_isNearPot = isNearPot;
 
 		List<ItemStack> listItemsToShow = new List<ItemStack>();
 		listItemsToShow = _currentInventory.Items.FindAll(o => o.Item.ItemType.TabType == _selectedTab);
 
-		FillInventoryItems(listItemsToShow);
+		DrawInventoryItems(listItemsToShow);
 	}
 
 
@@ -101,40 +102,40 @@ public class UIInventory : MonoBehaviour
 	// cleanup, listItemsToShow is the current itemstacks of the tab type selected
 	// availableItemSlots should coincide with the actual slots in the inventory screen, should be set in the inspector
 	// list items to show should have the same hard limit as available slots? as to not overflow
-	void FillInventoryItems(List<ItemStack> listItemsToShow)
+	void DrawInventoryItems(List<ItemStack> items)
 	{
-		_availableItemSlots ??= new List<UIInventoryItem>(); //not needed
+		var index = 0;
 
-		int maxCount = Mathf.Max(listItemsToShow.Count, _availableItemSlots.Count); //not needed
-
-		for (int i = 0; i < maxCount; i++) //convert to just iterating through the itemsToShow
+		while (index < _availableItemSlots.Count)
 		{
-			if (i < listItemsToShow.Count)
+			if (index < items.Count)
 			{
-				bool isSelected = selectedItemId == i;
-				_availableItemSlots[i].SetItem(listItemsToShow[i], isSelected);
-
+				bool isSelected = _selectedItemId == index;
+				_availableItemSlots[index].SetItem(items[index], isSelected);
 			}
-			else if (i < _availableItemSlots.Count)
+			else
 			{
-				_availableItemSlots[i].SetInactiveItem();
+				_availableItemSlots[index].ClearItem();
 			}
-
+			++index;
 		}
 
 		HideItemInformation();
 
-		if (selectedItemId >= 0)
+		if (_selectedItemId >= 0)
 		{
-			UnselectItem(selectedItemId);
-			selectedItemId = -1;
+			UnselectItem(_selectedItemId);
+			_selectedItemId = -1;
 		}
-		if (_availableItemSlots.Count > 0)
-		{
-			_availableItemSlots[0].SelectFirstElement();
-		}
+
+		_availableItemSlots[0].SelectFirstElement();
 	}
 
+	void HideItemInformation()
+	{
+		_actionButton.gameObject.SetActive(false);
+		_inspectorPanel.gameObject.SetActive(false);
+	}
 
 	void InteractionEnded()
 	{
@@ -152,7 +153,7 @@ public class UIInventory : MonoBehaviour
 			{
 
 				int index = _availableItemSlots.FindIndex(o => o.currentItem == itemToUpdate);
-				_availableItemSlots[index].SetInactiveItem();
+				_availableItemSlots[index].ClearItem();
 			}
 		}
 		else
@@ -178,7 +179,7 @@ public class UIInventory : MonoBehaviour
 				index = _currentInventory.Items.Count;
 			}
 
-			bool isSelected = selectedItemId == index;
+			bool isSelected = _selectedItemId == index;
 			_availableItemSlots[index].SetItem(itemToUpdate, isSelected);
 		}
 	}
@@ -190,11 +191,11 @@ public class UIInventory : MonoBehaviour
 			int itemIndex = _availableItemSlots.FindIndex(o => o.currentItem.Item == itemToInspect);
 
 			//unselect selected Item
-			if (selectedItemId >= 0 && selectedItemId != itemIndex)
-				UnselectItem(selectedItemId);
+			if (_selectedItemId >= 0 && _selectedItemId != itemIndex)
+				UnselectItem(_selectedItemId);
 
 			//change Selected ID 
-			selectedItemId = itemIndex;
+			_selectedItemId = itemIndex;
 
 			//show Information
 			ShowItemInformation(itemToInspect);
@@ -227,33 +228,21 @@ public class UIInventory : MonoBehaviour
 		_inspectorPanel.gameObject.SetActive(true);
 	}
 
-	void HideItemInformation()
-	{
-		_actionButton.gameObject.SetActive(false);
-		_inspectorPanel.gameObject.SetActive(false);
-	}
-
-	void UnselectItem(int itemIndex)
-	{
-		if (_availableItemSlots.Count > itemIndex)
-		{
-			_availableItemSlots[itemIndex].UnselectItem();
-		}
-	}
+	void UnselectItem(int itemIndex) => _availableItemSlots[itemIndex].UnselectItem();
 
 	void UpdateInventory()
 	{
-		//FillInventory(_selectedTab.TabType, _isNearPot);
+		DrawInventory(_selectedTab.TabType, _isNearPot);
 	}
 
 	void OnActionButtonClicked()
 	{
 		//find the selected Item
-		if (_availableItemSlots.Count > selectedItemId
-			&& selectedItemId > -1)
+		if (_availableItemSlots.Count > _selectedItemId
+			&& _selectedItemId > -1)
 		{
 			ItemSO itemToActOn = ScriptableObject.CreateInstance<ItemSO>();
-			itemToActOn = _availableItemSlots[selectedItemId].currentItem.Item;
+			itemToActOn = _availableItemSlots[_selectedItemId].currentItem.Item;
 
 			//check the selected Item type
 			//call action function depending on the itemType
@@ -303,7 +292,7 @@ public class UIInventory : MonoBehaviour
 	void OnChangeTab(InventoryTabSO tabType)
 	{
 		_selectedTab = tabType;
-		FillInventory(_selectedTab.TabType, _isNearPot);
+		DrawInventory(_selectedTab.TabType, _isNearPot);
 	}
 
 	public void CloseInventory()

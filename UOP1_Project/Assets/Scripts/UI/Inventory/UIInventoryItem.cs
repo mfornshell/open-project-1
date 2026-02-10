@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.Localization.Components;
 using UnityEngine.Events;
+using System;
 
 public class UIInventoryItem : MonoBehaviour
 {
@@ -25,21 +26,13 @@ public class UIInventoryItem : MonoBehaviour
 
 	public void SetItem(ItemStack itemStack, bool isSelected)
 	{
-		_isSelected = isSelected;
-		_itemPreviewImage.gameObject.SetActive(true);
-		_itemCount.gameObject.SetActive(true);
-		_bgImage.gameObject.SetActive(true);
-		_imgHover.gameObject.SetActive(true);
-		_imgSelected.gameObject.SetActive(true);
-		_itemButton.gameObject.SetActive(true);
-		_bgInactiveImage.gameObject.SetActive(false);
+		Debug.Assert(itemStack != null);
 
-		UnhoverItem();
 		currentItem = itemStack;
-
+		SetState(true);
 		_imgSelected.gameObject.SetActive(isSelected);
-
-		if (itemStack.Item.IsLocalized)
+		
+		if (currentItem.Item.IsLocalized)
 		{
 			_bgLocalizedImage.enabled = true;
 			_bgLocalizedImage.AssetReference = itemStack.Item.LocalizePreviewImage;
@@ -53,17 +46,21 @@ public class UIInventoryItem : MonoBehaviour
 		_bgImage.color = itemStack.Item.ItemType.TypeColor;
 	}
 
-	public void SetInactiveItem()
+	public void ClearItem()
 	{
-		UnhoverItem();
 		currentItem = null;
-		_itemPreviewImage.gameObject.SetActive(false);
-		_itemCount.gameObject.SetActive(false);
-		_bgImage.gameObject.SetActive(false);
-		_imgHover.gameObject.SetActive(false);
+		SetState(false);
 		_imgSelected.gameObject.SetActive(false);
-		_itemButton.gameObject.SetActive(false);
-		_bgInactiveImage.gameObject.SetActive(true);
+	}
+
+	private void SetState(bool isActive)
+	{
+		_itemPreviewImage.gameObject.SetActive(isActive);
+		_itemCount.gameObject.SetActive(isActive);
+		_bgImage.gameObject.SetActive(isActive);
+		_imgHover.gameObject.SetActive(false);
+		_itemButton.gameObject.SetActive(isActive);
+		_bgInactiveImage.gameObject.SetActive(!isActive);
 	}
 
 	public void SelectFirstElement()
@@ -79,15 +76,8 @@ public class UIInventoryItem : MonoBehaviour
 		{ SelectItem(); }
 	}
 
-	public void HoverItem()
-	{
-		_imgHover.gameObject.SetActive(true);
-	}
-
-	public void UnhoverItem()
-	{
-		_imgHover.gameObject.SetActive(false);
-	}
+	public void OnHoverChanged(bool isHovering) =>
+		_imgHover.gameObject.SetActive(isHovering);
 
 	public void SelectItem()
 	{
@@ -109,4 +99,19 @@ public class UIInventoryItem : MonoBehaviour
 		_isSelected = false;
 		_imgSelected.gameObject.SetActive(false);
 	}
+
+	void OnSelect()
+	{
+		if (currentItem == null && currentItem.Item == null)
+			return;
+
+		_imgSelected.gameObject.SetActive(true);
+		ItemSelected?.Invoke(currentItem.Item);
+	}
+
+	void OnDeselect()
+	{
+		_imgSelected.gameObject.SetActive(false);
+	}
+	
 }

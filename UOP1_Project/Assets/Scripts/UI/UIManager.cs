@@ -232,12 +232,13 @@ public class UIManager : MonoBehaviour
 
 		if (isForCooking)
 		{
-			_inventoryPanel.FillInventory(InventoryTabType.Recipe, true);
+
+			_inventoryPanel.DrawInventory(InventoryTabType.Recipe, true);
 
 		}
 		else
 		{
-			_inventoryPanel.FillInventory();
+			_inventoryPanel.DrawInventory();
 		}
 
 		_gameStateManager.UpdateGameState(GameState.Inventory);
