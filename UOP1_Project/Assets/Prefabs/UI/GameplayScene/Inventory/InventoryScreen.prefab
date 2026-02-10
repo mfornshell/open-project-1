@@ -1156,6 +1156,7 @@ MonoBehaviour:
   _restoreHealth: {fileID: 11400000, guid: de4a39f85969d44cba990125224ff7ef, type: 2}
   _equipItemEvent: {fileID: 11400000, guid: 0cef922101fd44b25a2d96f2972d5f50, type: 2}
   _cookRecipeEvent: {fileID: 11400000, guid: 1a56201d2b4714889a387c20fbd8f3e8, type: 2}
+  _tabSwitchedEvent: {fileID: 11400000, guid: fc0c5c42675afd04aa1c261c980c2569, type: 2}
 --- !u!1001 &26049570273333792
 PrefabInstance:
   m_ObjectHideFlags: 0

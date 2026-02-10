@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
@@ -27,6 +28,7 @@ public class UIInventory : MonoBehaviour
 	[SerializeField] private IntEventChannelSO _restoreHealth = default;
 	[SerializeField] private ItemEventChannelSO _equipItemEvent = default;
 	[SerializeField] private ItemEventChannelSO _cookRecipeEvent = default;
+	[SerializeField] private InventoryTabSOEventChannel _tabSwitchedEvent;
 
 	private InventoryTabSO _selectedTab = default;
 	private bool _isNearPot = false;
@@ -65,43 +67,61 @@ public class UIInventory : MonoBehaviour
 
 	private void OnSwitchTab(float orientation)
 	{
-		if (orientation != 0)
-		{
-			bool isLeft = orientation < 0;
-			int initialIndex = _inventoryTabs.FindIndex(o => o == _selectedTab);
-			if (initialIndex != -1)
-			{
-				if (isLeft)
-				{
-					initialIndex--;
-				}
-				else
-				{
-					initialIndex++;
-				}
+		if (Mathf.Approximately(orientation, 0))
+			return;
 
-				initialIndex = Mathf.Clamp(initialIndex, 0, _inventoryTabs.Count - 1);
-			}
+		var index = _inventoryTabs.IndexOf(_selectedTab);
 
-			OnChangeTab(_inventoryTabs[initialIndex]);
-		}
+		index += (orientation < 0 ? -1 : 1);
+
+		index = index < 0 ? _inventoryTabs.Count - 1
+			: index >= _inventoryTabs.Count ? 0
+			: index;
+
+		_tabSwitchedEvent?.RaiseEvent(_inventoryTabs[index]);
 	}
 
 	public void DrawInventory(InventoryTabType _selectedTabType = InventoryTabType.CookingItem, bool isNearPot = false)
 	{
 		_isNearPot = isNearPot;
 
-		List<ItemStack> listItemsToShow = new List<ItemStack>();
-		listItemsToShow = _currentInventory.Items.FindAll(o => o.Item.ItemType.TabType == _selectedTab);
+		var items = _currentInventory.Items.Where(x => x.Item.ItemType.TabType == _selectedTab);
 
-		DrawInventoryItems(listItemsToShow);
+		DrawInventoryItems(items);
 	}
 
 
-	// TODO is meant to reset the item slots and fill them with the current selected tab item stacks
-	// cleanup, listItemsToShow is the current itemstacks of the tab type selected
-	// availableItemSlots should coincide with the actual slots in the inventory screen, should be set in the inspector
-	// list items to show should have the same hard limit as available slots? as to not overflow
+	// TODO should be a class called InventoryItemSlots that holds all the slots
+	// and can perform draw calculations like this. Also being able to bind each slot to a value
+	// ie the ItemStack and update itself if the item stack changes the amount value OR goes null
+	// OR changes to a different ItemStack completely
+	private void DrawInventoryItems(IEnumerable<ItemStack> items)
+	{
+		var index = 0;
+
+		foreach (var item in items)
+		{
+			var isSelected = _selectedItemId == index;
+			_availableItemSlots[index].SetItem(item, isSelected);
+			index++;
+		}
+
+		for (int i = index; i < _availableItemSlots.Count; i++)
+		{
+			_availableItemSlots[i].ClearItem();
+		}
+
+		HideItemInformation();
+
+		if (_selectedItemId >= 0)
+		{
+			UnselectItem(_selectedItemId);
+			_selectedItemId = -1;
+		}
+
+		_availableItemSlots[0].SelectFirstElement();
+	}
+
 	void DrawInventoryItems(List<ItemStack> items)
 	{
 		var index = 0;
