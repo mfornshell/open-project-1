@@ -16,6 +16,7 @@ public class UIInventory : MonoBehaviour
 	[SerializeField] private UIInventoryInspector _inspectorPanel = default;
 	[SerializeField] private List<InventoryTabSO> _inventoryTabs = new List<InventoryTabSO>();
 	[SerializeField] private List<UIInventoryItem> _availableItemSlots = default;
+	[SerializeField] UIInventoryItemSlots _inventorySlots;
 
 	[Header("Listening to")]
 	[SerializeField] private UIInventoryTabs _tabsPanel = default;
@@ -88,28 +89,25 @@ public class UIInventory : MonoBehaviour
 		var items = _currentInventory.Items.Where(x => x.Item.ItemType.TabType == _selectedTab);
 
 		DrawInventoryItems(items);
+		//DrawInventoryItems(items.ToList()); //fallback
 	}
 
-
-	// TODO should be a class called InventoryItemSlots that holds all the slots
-	// and can perform draw calculations like this. Also being able to bind each slot to a value
-	// ie the ItemStack and update itself if the item stack changes the amount value OR goes null
-	// OR changes to a different ItemStack completely
 	private void DrawInventoryItems(IEnumerable<ItemStack> items)
 	{
-		var index = 0;
+		_inventorySlots.Draw(items);
+		//var index = 0;
 
-		foreach (var item in items)
-		{
-			var isSelected = _selectedItemId == index;
-			_availableItemSlots[index].SetItem(item, isSelected);
-			index++;
-		}
+		//foreach (var item in items)
+		//{
+		//	var isSelected = _selectedItemId == index;
+		//	_availableItemSlots[index].SetItem(item, isSelected);
+		//	index++;
+		//}
 
-		for (int i = index; i < _availableItemSlots.Count; i++)
-		{
-			_availableItemSlots[i].ClearItem();
-		}
+		//for (int i = index; i < _availableItemSlots.Count; i++)
+		//{
+		//	_availableItemSlots[i].ClearItem();
+		//}
 
 		HideItemInformation();
 

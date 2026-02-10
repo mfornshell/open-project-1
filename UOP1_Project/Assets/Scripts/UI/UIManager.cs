@@ -232,7 +232,7 @@ public class UIManager : MonoBehaviour
 
 		if (isForCooking)
 		{
-
+			//should instead call set tab? or select tab?
 			_inventoryPanel.DrawInventory(InventoryTabType.Recipe, true);
 
 		}
