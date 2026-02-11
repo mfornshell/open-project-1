@@ -1,0 +1,27 @@
+{
+    "name": "uop1.project.PlayMode",
+    "rootNamespace": "UOP1.Tests",
+    "references": [
+        "UnityEngine.TestRunner",
+        "UnityEditor.TestRunner",
+        "UOP1.StateMachine",
+        "Unity.InputSystem",
+        "Unity.InputSystem.TestFramework",
+        "Unity.Addressables",
+        "Unity.ResourceManager",
+        "Assembly-CSharp"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "nunit.framework.dll"
+    ],
+    "autoReferenced": false,
+    "defineConstraints": [
+        "UNITY_INCLUDE_TESTS"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

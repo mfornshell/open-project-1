@@ -1,0 +1,26 @@
+{
+    "name": "UOP1",
+    "rootNamespace": "UOP1",
+    "references": [
+        "GUID:eec0964c48f6f4e40bc3ec2257ccf8c5",
+        "GUID:75469ad4d38634e559750d17036d5f7c",
+        "GUID:784148ec08432ab4a974dd364656dae9",
+        "GUID:6055be8ebefd69e48b49212b09b47b2f",
+        "GUID:9e24947de15b9834991c9d8411ea37cf",
+        "GUID:84651a3751eca9349aac36a66bba901b",
+        "GUID:4307f53044263cf4b835bd812fc161a4",
+        "GUID:f06555f75b070af458a003d92f9efb00",
+        "GUID:15fc0a57446b3144c949da3e2b9737a9",
+        "GUID:355fa984eebba1f45b5d63ca4a6d83b7",
+        "GUID:2e77701fe0ceda44fb763f03ee704c37"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

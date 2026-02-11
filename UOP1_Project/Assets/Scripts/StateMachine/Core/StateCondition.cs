@@ -72,7 +72,7 @@ namespace UOP1.StateMachine
 			bool isMet = statement == _expectedResult;
 
 #if UNITY_EDITOR
-			_stateMachine._debugger.TransitionConditionResult(_condition._originSO.name, statement, isMet);
+			_stateMachine._debugger.TransitionConditionResult(_condition._originSO.Name, statement, isMet);
 #endif
 			return isMet;
 		}

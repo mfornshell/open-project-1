@@ -8,6 +8,14 @@ namespace UOP1.StateMachine.ScriptableObjects
 	{
 		[SerializeField] private StateActionSO[] _actions = null;
 
+		public string Name { get; private set; }
+
+		private void OnEnable()
+		{
+			Name = name;
+		}
+
+
 		/// <summary>
 		/// Will create a new state or return an existing one inside <paramref name="createdInstances"/>.
 		/// </summary>

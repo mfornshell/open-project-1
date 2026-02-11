@@ -5,6 +5,13 @@ namespace UOP1.StateMachine.ScriptableObjects
 {
 	public abstract class StateConditionSO : ScriptableObject
 	{
+		public string Name { get; private set; }
+
+		private void OnEnable()
+		{
+			Name = name; 
+		}
+
 		/// <summary>
 		/// Will create a new custom <see cref="Condition"/> or use an existing one inside <paramref name="createdInstances"/>.
 		/// </summary>
