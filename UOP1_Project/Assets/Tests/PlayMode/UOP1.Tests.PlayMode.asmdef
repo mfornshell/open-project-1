@@ -1,5 +1,5 @@
 {
-    "name": "uop1.project.PlayMode",
+    "name": "UOP1.Tests.PlayMode",
     "rootNamespace": "UOP1.Tests",
     "references": [
         "UnityEngine.TestRunner",
@@ -9,7 +9,8 @@
         "Unity.InputSystem.TestFramework",
         "Unity.Addressables",
         "Unity.ResourceManager",
-        "Assembly-CSharp"
+        "Assembly-CSharp",
+        "UOP1"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

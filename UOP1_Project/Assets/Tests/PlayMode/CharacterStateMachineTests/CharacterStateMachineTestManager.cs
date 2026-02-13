@@ -6,16 +6,18 @@ namespace UOP1.Tests
 {
     public class CharacterStateMachineTestManager : MonoBehaviour
     {
-        //InputRea
+		[SerializeField] InputReader _inputReader;
+		[SerializeField] Protagonist _characterPrefab;
+		[SerializeField] VoidEventChannelSO _sceneReadyChannel;
+
+		public InputReader InputReader => _inputReader;
+		public Protagonist Character { get; private set; }
+
         void Start()
         {
-        
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-        
+			//Character = Instantiate(_characterPrefab);
+			_inputReader.EnableGameplayInput();
+			_sceneReadyChannel?.RaiseEvent();
         }
     }
 }

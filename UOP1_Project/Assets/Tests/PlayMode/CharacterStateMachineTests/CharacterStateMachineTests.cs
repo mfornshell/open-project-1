@@ -35,16 +35,10 @@ namespace UOP1.Tests
 		[UnityTest]
 		public IEnumerator AttackPressed_StateMachine_TransitionsToAttack()
 		{
-			var character = GameObject.FindWithTag("Player");
-
-
-			var mouse = InputSystem.GetDevice<Mouse>();
-
-			yield return new WaitForSeconds(1f);
-
-			_input.PressAndRelease(mouse.leftButton, time: .1f);
-
-			yield return new WaitForSeconds(1f);
+			yield return null;
+			var manager = Object.FindAnyObjectByType<CharacterStateMachineTestManager>();
+			var character = manager.Character;
+			var input = manager.InputReader;
 		}
     }
 }

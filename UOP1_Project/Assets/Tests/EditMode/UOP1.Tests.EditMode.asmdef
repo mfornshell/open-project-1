@@ -1,9 +1,10 @@
 {
-    "name": "uop1.project.EditMode",
+    "name": "UOP1.Tests.EditMode",
     "rootNamespace": "UOP1.Tests",
     "references": [
         "UnityEngine.TestRunner",
-        "UnityEditor.TestRunner"
+        "UnityEditor.TestRunner",
+        "UOP1.StateMachine"
     ],
     "includePlatforms": [
         "Editor"
