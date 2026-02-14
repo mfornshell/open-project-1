@@ -47,6 +47,12 @@ namespace UOP1.StateMachine.ScriptableObjects
 				: throw new InvalidOperationException($"TransitionTable {name} is empty.");
 		}
 
+
+		//conditionUsages - all conditions in the transitionItem
+		//createdInstances - Key: StateSO or StateActionSO, Value: State or StateAction
+		//--has the current fromState and all toStates for this transitionItem
+		//conditions - gets StateConditions from StateConditionSOs, and trys to add to createdInstances if necessary
+		//resultGroups - 
 		private static void ProcessConditionUsages(
 			StateMachine stateMachine,
 			ConditionUsage[] conditionUsages,
@@ -64,14 +70,20 @@ namespace UOP1.StateMachine.ScriptableObjects
 			List<int> resultGroupsList = new List<int>();
 			for (int i = 0; i < count; i++)
 			{
+				//index of the added resultgroupsList
 				int idx = resultGroupsList.Count;
 				resultGroupsList.Add(1);
+				//iterate through all of the conditionUsages that should be combined with And
 				while (i < count - 1 && conditionUsages[i].Operator == Operator.And)
 				{
+					//increment the index
 					i++;
+					//increment the groupingCount
 					resultGroupsList[idx]++;
 				}
 			}
+
+			//ie AND,OR,AND,AND returns [2,2], skips the last one because it doesnt chain
 
 			resultGroups = resultGroupsList.ToArray();
 		}

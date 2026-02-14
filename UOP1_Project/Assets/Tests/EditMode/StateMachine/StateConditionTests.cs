@@ -9,7 +9,7 @@ namespace UOP1.Tests
 		[TestCase(false)]
 		public void StateCondition_IsMet_ReturnsTrue(bool value)
 		{
-			var condition = new MockCondition() { StatementValue = value };
+			var condition = new MockCondition() { Evaluation = value };
 
 			//expected is important for certain states,
 			//ie IsWalking to IsIdle checks for IsMoving == false to transition
@@ -24,7 +24,7 @@ namespace UOP1.Tests
 		public void StateCondition_IsNotMet_ReturnsFalse(bool value)
 		{
 			//just returns the opposite of expectedResult
-			var condition = new MockCondition() { StatementValue = !value };
+			var condition = new MockCondition() { Evaluation = !value };
 
 			//StateMachine parameter should eventually not need to be passed down
 			//since it is only used for debugging, instead register an event callback if needed

@@ -4,8 +4,12 @@ namespace UOP1.Tests
 {
 	public class MockCondition : Condition
 	{
-		internal bool StatementValue = false;
+		internal bool Evaluation = false;
 
-		protected override bool Evaluate() => StatementValue;
+		internal MockCondition() { }
+
+		public MockCondition(bool evaluation) => Evaluation = evaluation;
+
+		protected override bool Evaluate() => Evaluation;
 	}
 }

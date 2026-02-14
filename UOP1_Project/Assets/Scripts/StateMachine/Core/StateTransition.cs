@@ -17,7 +17,7 @@
 		{
 			_targetState = targetState;
 			_conditions = conditions;
-			_resultGroups = resultGroups != null && resultGroups.Length > 0 ? resultGroups : new int[1];
+			_resultGroups = resultGroups != null && resultGroups.Length > 0 ? resultGroups : new int[] { conditions.Length };
 			_results = new bool[_resultGroups.Length];
 		}
 
@@ -47,7 +47,7 @@
 		private bool ShouldTransition()
 		{
 #if UNITY_EDITOR
-			_targetState._stateMachine._debugger.TransitionEvaluationBegin(_targetState._originSO.Name);
+			_targetState._stateMachine?._debugger.TransitionEvaluationBegin(_targetState._originSO.Name);
 #endif
 
 
@@ -57,18 +57,30 @@
 			{
 				for (int j = 0; j < _resultGroups[i]; j++, idx++)
 				{
-					_results[i] = j == 0
-						? _conditions[idx].IsMet()
-						: _results[i] && _conditions[idx].IsMet();
+					if (j == 0)
+					{
+						//gets initial evaluation
+						_results[i] = _conditions[idx].IsMet();
+					}
+					else
+					{
+						//keep evaluating for each condition and update
+						//if any are false, stays false
+						//can probably early return out if this?
+						//idx is updated and kept track of in outer loop
+						_results[i] = _results[i] && _conditions[idx].IsMet();
+					}
 				}
 			}
 
 			bool ret = false;
+			//continues through if ret is still false
+			//if results[i] evaluates to true at all, return true
 			for (int i = 0; i < count && !ret; i++)
 				ret = ret || _results[i];
 
 #if UNITY_EDITOR
-			_targetState._stateMachine._debugger.TransitionEvaluationEnd(ret, _targetState._actions);
+			_targetState._stateMachine?._debugger.TransitionEvaluationEnd(ret, _targetState._actions);
 #endif
 
 			return ret;

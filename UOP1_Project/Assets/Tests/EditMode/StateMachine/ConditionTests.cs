@@ -8,7 +8,7 @@ namespace UOP1.Tests
 		[TestCase(false)]
 		public void Condition_GetStatement_ReturnsCorrectValue(bool value)
 		{
-			var condition = new MockCondition() { StatementValue = value };
+			var condition = new MockCondition() { Evaluation = value };
 
 			//returns a cached result, otherwise evaluates the result, caches it, and return
 			var actual = condition.Get();
