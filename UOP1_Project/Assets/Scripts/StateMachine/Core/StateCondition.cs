@@ -7,8 +7,7 @@ namespace UOP1.StateMachine
 	/// </summary>
 	public abstract class Condition : IStateComponent
 	{
-		private bool _isCached;
-		private bool _cachedResult;
+		private bool _isCached, _cachedResult;
 		internal StateConditionSO _originSO;
 
 		/// <summary>
@@ -29,14 +28,10 @@ namespace UOP1.StateMachine
 		{
 			if (!_isCached)
 				(_cachedResult, _isCached) = (Evaluate(), true);
-
 			return _cachedResult;
 		}
 
-		internal void ClearCache()
-		{
-			_isCached = false;
-		}
+		internal void ClearCache() => _isCached = false;
 
 		/// <summary>
 		/// Awake is called when creating a new instance. Use this method to cache the components needed for the condition.
@@ -54,22 +49,21 @@ namespace UOP1.StateMachine
 	{
 		internal readonly StateMachine _stateMachine;
 		internal readonly Condition _condition;
-		internal readonly bool _expectedResult;
+		internal readonly bool _expected;
 
-		public StateCondition(StateMachine stateMachine, Condition condition, bool expectedResult)
+		public StateCondition(StateMachine stateMachine, Condition condition, bool expected)
 		{
 			_stateMachine = stateMachine;
 			_condition = condition;
-			_expectedResult = expectedResult;
+			_expected = expected;
 		}
 
 		public bool IsMet()
 		{
-			bool statement = _condition.Get();
-			bool isMet = statement == _expectedResult;
+			bool isMet = _condition.Get() == _expected; //remove expected call
 
 #if UNITY_EDITOR
-			_stateMachine._debugger.TransitionConditionResult(_condition._originSO.Name, statement, isMet);
+			_stateMachine?._debugger.TransitionConditionResult(_condition._originSO.Name, _condition.Get(), isMet);
 #endif
 			return isMet;
 		}
