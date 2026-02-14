@@ -22,7 +22,7 @@ public class IsANewLineDisplayedCondition : Condition
 	{
 		_sayLineEvent = sayLineEvent;
 	}
-	protected override bool Statement()
+	protected override bool Evaluate()
 	{
 
 		return _isAnewLineDisplayed;

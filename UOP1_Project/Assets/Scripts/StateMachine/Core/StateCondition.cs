@@ -7,8 +7,8 @@ namespace UOP1.StateMachine
 	/// </summary>
 	public abstract class Condition : IStateComponent
 	{
-		private bool _isCached = false;
-		private bool _cachedStatement = default;
+		private bool _isCached;
+		private bool _cachedResult;
 		internal StateConditionSO _originSO;
 
 		/// <summary>
@@ -20,23 +20,20 @@ namespace UOP1.StateMachine
 		/// Specify the statement to evaluate.
 		/// </summary>
 		/// <returns></returns>
-		protected abstract bool Statement();
+		protected abstract bool Evaluate();
 
 		/// <summary>
-		/// Wrap the <see cref="Statement"/> so it can be cached.
+		/// Wrap the <see cref="Evaluate"/> so it can be cached.
 		/// </summary>
-		internal bool GetStatement()
+		internal bool Get()
 		{
 			if (!_isCached)
-			{
-				_isCached = true;
-				_cachedStatement = Statement();
-			}
+				(_cachedResult, _isCached) = (Evaluate(), true);
 
-			return _cachedStatement;
+			return _cachedResult;
 		}
 
-		internal void ClearStatementCache()
+		internal void ClearCache()
 		{
 			_isCached = false;
 		}
@@ -68,7 +65,7 @@ namespace UOP1.StateMachine
 
 		public bool IsMet()
 		{
-			bool statement = _condition.GetStatement();
+			bool statement = _condition.Get();
 			bool isMet = statement == _expectedResult;
 
 #if UNITY_EDITOR

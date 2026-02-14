@@ -10,8 +10,8 @@ namespace UOP1.Tests
 		{
 			var condition = new MockCondition() { StatementValue = value };
 
-			//returns a _cachedStatement and calculates it with Statement() if _isCached is null;
-			var actual = condition.GetStatement();
+			//returns a cached result, otherwise evaluates the result, caches it, and return
+			var actual = condition.Get();
 
 			Assert.AreEqual(value, actual);
 		}

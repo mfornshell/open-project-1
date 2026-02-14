@@ -19,7 +19,7 @@ public class HasHitHeadCondition : Condition
 		_characterController = stateMachine.GetComponent<CharacterController>();
 	}
 
-	protected override bool Statement()
+	protected override bool Evaluate()
 	{
 		bool isMovingUpwards = _protagonistScript.movementVector.y > 0f;
 		if (isMovingUpwards)

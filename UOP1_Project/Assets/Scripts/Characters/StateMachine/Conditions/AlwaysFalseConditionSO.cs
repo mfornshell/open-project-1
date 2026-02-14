@@ -7,5 +7,5 @@ public class AlwaysFalseConditionSO : StateConditionSO<AlwaysFalseCondition> { }
 
 public class AlwaysFalseCondition : Condition
 {
-	protected override bool Statement() => false;
+	protected override bool Evaluate() => false;
 }

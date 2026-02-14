@@ -16,7 +16,7 @@ public class IsSlidingCondition : Condition
 		_protagonistScript = stateMachine.GetComponent<Protagonist>();
 	}
 
-	protected override bool Statement()
+	protected override bool Evaluate()
 	{
 		//First frame fail check
 		if (_protagonistScript.lastHit == null)

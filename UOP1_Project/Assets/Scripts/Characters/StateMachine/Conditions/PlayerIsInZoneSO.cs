@@ -27,7 +27,7 @@ public class PlayerIsInZone : Condition
 		_critter = stateMachine.GetComponent<Critter>();
 	}
 
-	protected override bool Statement()
+	protected override bool Evaluate()
 	{
 		bool result = false;
 		if (_critter != null)

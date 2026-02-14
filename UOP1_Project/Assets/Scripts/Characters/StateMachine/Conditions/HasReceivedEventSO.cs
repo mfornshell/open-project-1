@@ -20,7 +20,7 @@ public class HasReceivedEventCondition : Condition
 		_originSO.voidEvent.OnEventRaised += EventReceived;
 	}
 
-	protected override bool Statement()
+	protected override bool Evaluate()
 	{
 		return _eventTriggered;
 	}

@@ -15,5 +15,5 @@ public class IsHoldingJumpCondition : Condition
 		_protagonistScript = stateMachine.GetComponent<Protagonist>();
 	}
 
-	protected override bool Statement() => _protagonistScript.jumpInput;
+	protected override bool Evaluate() => _protagonistScript.jumpInput;
 }

@@ -15,7 +15,7 @@ public class IsInSpecificGameStateCondition : Condition
 {
 	private IsInSpecificGameStateSO _originSO => (IsInSpecificGameStateSO)base.OriginSO; // The SO this Condition spawned from
 
-	protected override bool Statement()
+	protected override bool Evaluate()
 	{
 		return _originSO.gameStateToCheck == _originSO.gameStateSO.CurrentGameState;
 	}

@@ -26,7 +26,7 @@ public class IsAttackReloadedCondition : Condition
 		_startTime = Time.time;
 	}
 
-	protected override bool Statement()
+	protected override bool Evaluate()
 	{
 		return Time.time >= _startTime + _reloadDuration;
 	}

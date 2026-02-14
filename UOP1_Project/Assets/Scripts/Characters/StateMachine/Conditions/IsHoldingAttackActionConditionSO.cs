@@ -15,7 +15,7 @@ public class IsHoldingAttackActionCondition : Condition
 		_protagonistScript = stateMachine.GetComponent<Protagonist>();
 	}
 
-	protected override bool Statement()
+	protected override bool Evaluate()
 	{
 		return _protagonistScript.attackInput;
 	}

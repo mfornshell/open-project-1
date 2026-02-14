@@ -17,7 +17,7 @@ public class IsDeadCondition : Condition
 		_damageableScript = stateMachine.GetComponent<Damageable>();
 	}
 
-	protected override bool Statement()
+	protected override bool Evaluate()
 	{
 		return _damageableScript.IsDead;
 	}

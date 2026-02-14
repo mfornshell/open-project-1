@@ -18,7 +18,7 @@ public class IsMovingCondition : Condition
 		_protagonistScript = stateMachine.GetComponent<Protagonist>();
 	}
 
-	protected override bool Statement()
+	protected override bool Evaluate()
 	{
 		Vector3 movementVector = _protagonistScript.movementInput;
 		movementVector.y = 0f;

@@ -19,7 +19,7 @@ public class HasReachedWaypoint : Condition
 		_agent = stateMachine.gameObject.GetComponent<NavMeshAgent>();
 	}
 
-	protected override bool Statement()
+	protected override bool Evaluate()
 	{
 		if (!_agent.pathPending)
 		{

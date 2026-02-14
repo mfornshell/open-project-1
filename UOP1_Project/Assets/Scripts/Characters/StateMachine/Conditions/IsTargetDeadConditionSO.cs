@@ -17,7 +17,7 @@ public class IsTargetDeadCondition : Condition
 		_critterScript = stateMachine.GetComponent<Critter>();
 	}
 
-	protected override bool Statement()
+	protected override bool Evaluate()
 	{
 		return _critterScript.currentTarget == null || _critterScript.currentTarget.IsDead;
 	}

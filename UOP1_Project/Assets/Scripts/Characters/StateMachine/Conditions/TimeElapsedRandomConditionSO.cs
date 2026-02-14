@@ -21,5 +21,5 @@ public class TimeElapsedRandomCondition : Condition
 		timerLength = Random.Range(_originSO.minTimerLength, _originSO.maxTimerLength);
 	}
 
-	protected override bool Statement() => Time.time >= _startTime + timerLength;
+	protected override bool Evaluate() => Time.time >= _startTime + timerLength;
 }

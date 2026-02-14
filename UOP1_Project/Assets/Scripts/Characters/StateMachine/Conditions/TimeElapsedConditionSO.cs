@@ -18,5 +18,5 @@ public class TimeElapsedCondition : Condition
 		_startTime = Time.time;
 	}
 
-	protected override bool Statement() => Time.time >= _startTime + _originSO.timerLength;
+	protected override bool Evaluate() => Time.time >= _startTime + _originSO.timerLength;
 }

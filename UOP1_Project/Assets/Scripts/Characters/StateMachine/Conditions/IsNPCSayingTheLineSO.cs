@@ -24,7 +24,7 @@ public class IsNPCSayingTheLineCondition : Condition
 		_sayLineEvent = sayLineEvent;
 		_protagonistActor = protagonistActor;
 	}
-	protected override bool Statement()
+	protected override bool Evaluate()
 	{
 
 		return _isNPCSayingTheLine;

@@ -15,7 +15,7 @@ public class IsNPCTalkingCondition : Condition
 		_npcScript = stateMachine.GetComponent<NPC>();
 	}
 	
-	protected override bool Statement()
+	protected override bool Evaluate()
 	{
 
 		if (_npcScript.npcState == NPCState.Talk)

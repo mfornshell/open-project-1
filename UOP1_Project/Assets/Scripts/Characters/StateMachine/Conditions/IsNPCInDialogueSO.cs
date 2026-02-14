@@ -15,7 +15,7 @@ public class IsNPCDialogueCondition : Condition
 		_stepControllerScript = stateMachine.GetComponent<StepController>();
 	}
 	
-	protected override bool Statement()
+	protected override bool Evaluate()
 	{
 
 		if (_stepControllerScript.isInDialogue)

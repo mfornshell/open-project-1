@@ -6,6 +6,6 @@ namespace UOP1.Tests
 	{
 		internal bool StatementValue = false;
 
-		protected override bool Statement() => StatementValue;
+		protected override bool Evaluate() => StatementValue;
 	}
 }

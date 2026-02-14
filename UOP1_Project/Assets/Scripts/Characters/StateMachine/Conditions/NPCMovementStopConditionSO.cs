@@ -23,5 +23,5 @@ public class NPCMovementStopCondition : Condition
 		_startTime = Time.time;
 	}
 
-	protected override bool Statement() => Time.time >= _startTime + _npcMovement.NPCMovementConfig.StopDuration;
+	protected override bool Evaluate() => Time.time >= _startTime + _npcMovement.NPCMovementConfig.StopDuration;
 }

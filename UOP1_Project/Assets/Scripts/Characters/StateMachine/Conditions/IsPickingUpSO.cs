@@ -15,7 +15,7 @@ public class IsPickingUpCondition : Condition
 		_interactScript = stateMachine.GetComponent<InteractionManager>();
 	}
 
-	protected override bool Statement()
+	protected override bool Evaluate()
 	{
 		if (_interactScript.currentInteractionType == InteractionType.PickUp)
 		{

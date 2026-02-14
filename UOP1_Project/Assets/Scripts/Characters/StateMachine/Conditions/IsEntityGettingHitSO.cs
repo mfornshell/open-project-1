@@ -19,7 +19,7 @@ public class IsEntityGettingHit : Condition
 		_damageableEntity = stateMachine.GetComponent<Damageable>();
 	}
 
-	protected override bool Statement()
+	protected override bool Evaluate()
 	{
 		bool result = false;
 		if (_damageableEntity != null)
