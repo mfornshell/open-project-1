@@ -16,8 +16,8 @@ namespace UOP1.Tests
         void Start()
         {
 			//Character = Instantiate(_characterPrefab);
-			_inputReader.EnableGameplayInput();
-			_sceneReadyChannel?.RaiseEvent();
+			//_inputReader.EnableGameplayInput();
+			//_sceneReadyChannel?.RaiseEvent();
         }
     }
 }

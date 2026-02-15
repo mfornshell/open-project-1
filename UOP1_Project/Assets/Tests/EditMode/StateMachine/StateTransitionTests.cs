@@ -12,7 +12,7 @@ namespace UOP1.Tests
 	{
 
 		[Test]
-		public void TryGetTransition_WithTrueConditions_ReturnsTrue()
+		public void TryGetTransition_WithAllTrueConditions_ReturnsTrue()
 		{
 			var state = new State();
 			var conditions = Enumerable.Repeat(new StateCondition(null, new MockCondition(true), true), 10);
@@ -20,7 +20,7 @@ namespace UOP1.Tests
 			//resultGroups should get a value, once i figure out what it is supposed to look like
 			var transition = new StateTransition(state, conditions.ToArray(), null);
 
-			var actual = transition.TryGetTransiton(out var s);
+			var actual = transition.TryGetTransition(out var s);
 
 			Assert.True(actual);
 			Assert.IsNotNull(s);
@@ -36,7 +36,7 @@ namespace UOP1.Tests
 			var groups = new int[] { 5, 5 };
 			var transition = new StateTransition(state, conditions.ToArray(), groups);
 
-			var actual = transition.TryGetTransiton(out var s);
+			var actual = transition.TryGetTransition(out var s);
 
 			Assert.True(actual);
 			Assert.IsNotNull(s);
@@ -52,7 +52,7 @@ namespace UOP1.Tests
 			var groups = new int[] { 5, 5 };
 			var transition = new StateTransition(state, conditions.ToArray(), groups);
 
-			var actual = transition.TryGetTransiton(out var s);
+			var actual = transition.TryGetTransition(out var s);
 
 			Assert.False(actual);
 			Assert.Null(s);

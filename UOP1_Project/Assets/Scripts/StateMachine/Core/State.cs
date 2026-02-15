@@ -56,7 +56,7 @@ namespace UOP1.StateMachine
 			state = null;
 
 			for (int i = 0; i < _transitions.Length; i++)
-				if (_transitions[i].TryGetTransiton(out state))
+				if (_transitions[i].TryGetTransition(out state))
 					break;
 
 			for (int i = 0; i < _transitions.Length; i++)

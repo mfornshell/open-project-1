@@ -37,6 +37,10 @@ namespace UOP1.StateMachine.ScriptableObjects
 
 					var toState = transitionItem.ToState.GetState(stateMachine, createdInstances);
 					ProcessConditionUsages(stateMachine, transitionItem.Conditions, createdInstances, out var conditions, out var resultGroups);
+
+					//should be encapsulating conditions and resultGroups into a Factory method
+					//--that way there can never be an invalid StateTransition, and can be tested
+					//createdInstances should be passed down for now, until that is refactored.
 					transitions.Add(new StateTransition(toState, conditions, resultGroups));
 				}
 
